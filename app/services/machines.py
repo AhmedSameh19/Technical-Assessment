@@ -68,7 +68,7 @@ def guard_machine_activation(db: Session, machine_id: int):
 def handle_broken_transition(
     db: Session,
     machine_id: int,
-    payload: MachineStatusUpdate,
+    reason: str | None,
 ):
     now = datetime.utcnow()
     db.execute(
@@ -83,7 +83,7 @@ def handle_broken_transition(
     db.add(
         DowntimeLog(
             machine_id=machine_id,
-            reason=payload.reason ,
+            reason=reason,
             start_time=now,
             end_time=None,
         )
